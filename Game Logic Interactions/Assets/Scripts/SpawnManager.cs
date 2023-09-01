@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -14,9 +13,6 @@ public class SpawnManager : MonoBehaviour
 
     private List<GameObject> gameObjectPool = new();
     private GameObject currentGameObject;
-
-    public Transform startPoint;
-    public Transform endPoint;
 
     private void Awake()
     {
@@ -34,7 +30,7 @@ public class SpawnManager : MonoBehaviour
 
     private GameObject CreateGameObject()
     {
-        currentGameObject = Instantiate(aiPrefab, startPoint.position, Quaternion.identity);
+        currentGameObject = Instantiate(aiPrefab, AIPointManager.Instance.startPoint.position, Quaternion.identity);
         currentGameObject.SetActive(false);
         gameObjectPool.Add(currentGameObject);
 
@@ -47,7 +43,6 @@ public class SpawnManager : MonoBehaviour
         {
             currentGameObject = GetObjectFromPool();
             currentGameObject.SetActive(true);
-            currentGameObject.GetComponent<NavMeshAgent>().destination = endPoint.position;
 
             yield return new WaitForSeconds(.25f);
         }
