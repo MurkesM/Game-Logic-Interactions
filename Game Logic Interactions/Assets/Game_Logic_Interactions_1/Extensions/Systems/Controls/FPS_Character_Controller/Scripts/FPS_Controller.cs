@@ -48,6 +48,7 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             _fpsCamera = GetComponentInChildren<Camera>();
             _initialCameraPos = _fpsCamera.transform.localPosition;
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         private void Update()
@@ -60,6 +61,12 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             FPSController();
             CameraController();
             HeadBobbing(); 
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         void FPSController()
