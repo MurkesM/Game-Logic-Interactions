@@ -9,17 +9,21 @@ public class AIPointManager : MonoBehaviour
     public Transform startPoint;
     public Transform endPoint;
     public List<Transform> hidePoints = new();
+    public int index = 0;
 
     private void Awake()
     {
         instance = this;
     }
 
-    public Transform GetRandomHidePoint()
+    public Transform GetUniqueHidePoint()
     {
-        if (hidePoints.Count < 1)
+        if (hidePoints.Count < 1 || index > hidePoints.Count - 1)
             return null;
 
-        return hidePoints[Random.Range(0, hidePoints.Count - 1)];
+        var hidePoint = hidePoints[index];
+        index++;
+
+        return hidePoint;
     }
 }

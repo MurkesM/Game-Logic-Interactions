@@ -5,6 +5,7 @@ public class AI : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Animator animator;
+    public float moveSpeed = 5;
 
     private bool isAtHidePoint = false;
     public float timeArrivedAtHidePoint;
@@ -13,9 +14,11 @@ public class AI : MonoBehaviour
     private void Start()
     {
         //set destination to random hide point
-        agent.destination = AIPointManager.Instance.GetRandomHidePoint().position;
+        agent.destination = AIPointManager.Instance.GetUniqueHidePoint().position;
 
-        randomHideTime = Random.Range(2, 6);
+        randomHideTime = Random.Range(2, 5);
+
+        SetRunAnim(true);
     }
 
     private void Update()
@@ -24,26 +27,47 @@ public class AI : MonoBehaviour
         {
             isAtHidePoint = true;
             timeArrivedAtHidePoint = Time.time;
+
+            SetRunAnim(false);
+            SetHideAnim(true);
         }
             
-        if (isAtHidePoint && agent.destination != AIPointManager.Instance.endPoint.position)
+        if (isAtHidePoint)
         {
             if (Time.time < timeArrivedAtHidePoint + randomHideTime)
                 return;
 
-            animator.SetBool("Hiding", true);
-
             agent.destination = AIPointManager.Instance.endPoint.position;
+            isAtHidePoint = false;
         }
         else
         {
-            animator.SetBool("Hiding", false);
+            SetHideAnim(false);
+            SetRunAnim(true);
         }
+    }
+
+    private void SetRunAnim(bool run)
+    {
+        if (run)
+        {
+            animator.SetFloat("Speed", moveSpeed);
+            return;
+        }
+
+        animator.SetFloat("Speed", 0);
+    }
+
+    private void SetHideAnim(bool hide)
+    {
+        animator.SetBool("Hiding", hide);
     }
 
     public void KillAI()
     {
         PlayerPointsManager.AddPoints(50);
+
+        agent.speed = 0;
 
         animator.SetTrigger("Death");
     }
