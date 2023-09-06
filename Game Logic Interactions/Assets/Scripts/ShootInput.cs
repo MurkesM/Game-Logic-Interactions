@@ -7,6 +7,8 @@ public class ShootInput : MonoBehaviour
 
     private LayerMask mask;
 
+    public AudioSource audioSource;
+
     private void Awake()
     {
         mask = LayerMask.GetMask("Shootable");
@@ -22,8 +24,15 @@ public class ShootInput : MonoBehaviour
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        audioSource.Play();
+
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+        {
             if (hit.transform.TryGetComponent<AI>(out AI ai))
-                ai .KillAI();
+                ai.KillAI();
+
+            else if (hit.transform.TryGetComponent<Barrier>(out Barrier barrier))
+                barrier.Hit();
+        }
     }
 }

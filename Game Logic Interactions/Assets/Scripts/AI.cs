@@ -13,6 +13,14 @@ public class AI : MonoBehaviour
 
     public bool canKill = true;
 
+    public AudioSource audioSource;
+
+    public AudioClip deathSFX;
+    public AudioClip reachedEndSFX;
+
+    public bool headingForEndPoint = false;
+    public bool reachedEnd = false;
+
     private void Start()
     {
         EnemyDataManager.IncrementEnemyCount();
@@ -41,12 +49,25 @@ public class AI : MonoBehaviour
                 return;
 
             agent.destination = AIPointManager.Instance.endPoint.position;
+            headingForEndPoint = true;
+
             isAtHidePoint = false;
         }
         else
         {
             SetHideAnim(false);
             SetRunAnim(true);
+        }
+
+        float distanceToEnd = Vector3.Distance(transform.position, AIPointManager.Instance.endPoint.position);
+
+        if (headingForEndPoint && distanceToEnd < 2.5f && !reachedEnd)
+        {
+            reachedEnd = true;
+            headingForEndPoint = false;
+
+            audioSource.clip = reachedEndSFX;
+            audioSource.Play();
         }
     }
 
@@ -72,6 +93,9 @@ public class AI : MonoBehaviour
             return;
 
         canKill = false;
+
+        audioSource.clip = deathSFX;
+        audioSource.Play();
 
         EnemyDataManager.DecrementEnemyCount();
 
