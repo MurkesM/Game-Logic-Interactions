@@ -11,9 +11,12 @@ public class AI : MonoBehaviour
     public float timeArrivedAtHidePoint;
     public float randomHideTime;
 
+    public bool canKill = true;
+
     private void Start()
     {
-        //set destination to random hide point
+        EnemyDataManager.IncrementEnemyCount();
+
         agent.destination = AIPointManager.Instance.GetUniqueHidePoint().position;
 
         randomHideTime = Random.Range(2, 5);
@@ -65,6 +68,13 @@ public class AI : MonoBehaviour
 
     public void KillAI()
     {
+        if (!canKill)
+            return;
+
+        canKill = false;
+
+        EnemyDataManager.DecrementEnemyCount();
+
         PlayerPointsManager.AddPoints(50);
 
         agent.speed = 0;
