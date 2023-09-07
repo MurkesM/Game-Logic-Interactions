@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     public Text playerScoreText;
     public Text enemyCountText;
     public Text timeRemainingText;
-    public Text gameOverText;
+    public Text gameWonText;
+    public Text gameLossText;
 
     public float timeToEnd = 60f;
     private float timeRemaining = 1;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameWin += SetGameWonUI;
+        GameManager.Instance.OnGameLoss += SetGameLossUI;
     }
 
     private void Update()
@@ -37,6 +39,7 @@ public class UIManager : MonoBehaviour
         PlayerPointsManager.OnPointsUpdated -= SetScoreText;
         EnemyDataManager.OnEnemyCountUpdated -= SetEnemyCountText;
         GameManager.Instance.OnGameWin -= SetGameWonUI;
+        GameManager.Instance.OnGameLoss -= SetGameLossUI;
     }
 
     private void SetScoreText(int score)
@@ -61,6 +64,11 @@ public class UIManager : MonoBehaviour
 
     private void SetGameWonUI()
     {
-        gameOverText.gameObject.SetActive(true);
+        gameWonText.gameObject.SetActive(true);
+    }
+
+    private void SetGameLossUI()
+    {
+        gameLossText.gameObject.SetActive(true);
     }
 }

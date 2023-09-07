@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,7 +28,7 @@ public class AI : MonoBehaviour
 
         agent.destination = AIPointManager.Instance.GetUniqueHidePoint().position;
 
-        randomHideTime = Random.Range(2, 5);
+        randomHideTime = UnityEngine.Random.Range(2, 5);
 
         SetRunAnim(true);
     }
@@ -68,6 +69,8 @@ public class AI : MonoBehaviour
 
             audioSource.clip = reachedEndSFX;
             audioSource.Play();
+
+            EnemyDataManager.IncrementEnemyReachedEndCount();
         }
     }
 
