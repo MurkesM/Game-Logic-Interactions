@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
 {
@@ -42,6 +43,7 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         private float _lookSensitivity = 5.0f; //mouse sensitivity 
 
         private Camera _fpsCamera;
+
         private void Start()
         {
             _controller = GetComponent<CharacterController>(); //assign the reference variable to the component
@@ -56,6 +58,14 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Cursor.lockState = CursorLockMode.None;
+            }
+
+            if (GameManager.Instance.gameOver)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                    SceneManager.LoadScene(0);
+
+                return;
             }
 
             FPSController();

@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public Text playerScoreText;
     public Text enemyCountText;
     public Text timeRemainingText;
+    public Text gameOverText;
 
     public float timeToEnd = 60f;
     private float timeRemaining = 1;
@@ -21,6 +22,11 @@ public class UIManager : MonoBehaviour
         EnemyDataManager.OnEnemyCountUpdated += SetEnemyCountText;
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnGameWin += SetGameWonUI;
+    }
+
     private void Update()
     {
         SetTimeRemainingText();
@@ -30,6 +36,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerPointsManager.OnPointsUpdated -= SetScoreText;
         EnemyDataManager.OnEnemyCountUpdated -= SetEnemyCountText;
+        GameManager.Instance.OnGameWin -= SetGameWonUI;
     }
 
     private void SetScoreText(int score)
@@ -50,5 +57,10 @@ public class UIManager : MonoBehaviour
         timeRemaining = timeToEnd - Time.time;
 
         timeRemainingText.text = $"Time Remaining: {Math.Round(timeRemaining, 2)}";
+    }
+
+    private void SetGameWonUI()
+    {
+        gameOverText.gameObject.SetActive(true);
     }
 }

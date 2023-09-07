@@ -16,6 +16,9 @@ public class ShootInput : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.gameOver)
+            return;
+
         if (Input.GetMouseButtonDown(0))
             Shoot();
     }
