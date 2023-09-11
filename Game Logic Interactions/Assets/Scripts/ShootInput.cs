@@ -30,12 +30,7 @@ public class ShootInput : MonoBehaviour
         audioSource.Play();
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
-        {
-            if (hit.transform.TryGetComponent<AI>(out AI ai))
-                ai.KillAI();
-
-            else if (hit.transform.TryGetComponent<Barrier>(out Barrier barrier))
-                barrier.Hit();
-        }
+            if (hit.transform.TryGetComponent<IShootable>(out IShootable shootable))
+                shootable.Shot();
     }
 }

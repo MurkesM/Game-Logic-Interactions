@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI : MonoBehaviour
+public class AI : MonoBehaviour, IShootable
 {
     public NavMeshAgent agent;
     public Animator animator;
@@ -115,5 +115,10 @@ public class AI : MonoBehaviour
     public void OnDeathAnimFinished()
     {
         Destroy(this.gameObject);
+    }
+
+    public void Shot()
+    {
+        KillAI();
     }
 }
