@@ -208,3 +208,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: -7793786063591634270}
+  meshRenderer: {fileID: 3536736709525093728}
+  canShoot: 1
